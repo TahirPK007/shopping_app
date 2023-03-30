@@ -19,7 +19,11 @@ const Header = ({
 }) => {
   return (
     <View style={styles.header}>
-      <TouchableOpacity style={styles.btn}>
+      <TouchableOpacity
+        style={styles.btn}
+        onPress={() => {
+          onClickLefIcon();
+        }}>
         <Image source={leftIcon} style={styles.icon} />
       </TouchableOpacity>
       <Text style={styles.title}>{title}</Text>
@@ -57,8 +61,8 @@ const styles = StyleSheet.create({
     height: 30,
     tintColor: 'white',
   },
-  title:{
-    color:"white",
-    fontSize:20,
-  }
+  title: {
+    color: 'white',
+    fontSize: 20,
+  },
 });
