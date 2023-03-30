@@ -1,4 +1,4 @@
-import {View, Text, StyleSheet, Dimensions, Image} from 'react-native';
+import {View, Text, StyleSheet, Dimensions, Image, TouchableOpacity} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import Header from '../../common/Header';
 import {useNavigation} from '@react-navigation/native';
@@ -33,7 +33,9 @@ const Home = () => {
         data={products}
         renderItem={({item, index}) => {
           return (
-            <View style={styles.productitem}>
+            <TouchableOpacity style={styles.productitem} activeOpacity={1} onPress={()=>{
+              navigation.navigate("ProductDetail",{data:item})
+            }}>
               <Image style={styles.itemimage} source={{uri: item.image}} />
               <View>
                 <Text style={styles.name}>
@@ -48,7 +50,7 @@ const Home = () => {
                 </Text>
                 <Text style={styles.price}>{'$' + item.price}</Text>
               </View>
-            </View>
+            </TouchableOpacity>
           );
         }}
       />
