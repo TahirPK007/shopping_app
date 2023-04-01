@@ -1,10 +1,18 @@
-import {View, Text, StyleSheet, Image, TouchableOpacity} from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  Image,
+  TouchableOpacity,
+  ScrollView,
+} from 'react-native';
 import React from 'react';
 import Header from '../common/Header';
 import {useNavigation, useRoute} from '@react-navigation/native';
 import CustomButton from '../common/CustomButton';
 import {useDispatch} from 'react-redux';
 import {additemtowishlist} from '../redux/slices/wishlistSlice';
+import {additemtocart} from '../redux/slices/cartSlice';
 
 const ProductDetail = () => {
   const navigation = useNavigation();
@@ -20,26 +28,30 @@ const ProductDetail = () => {
           navigation.goBack();
         }}
       />
-      <Image source={{uri: route.params.data.image}} style={styles.banner} />
-      <Text style={styles.title}>{route.params.data.title}</Text>
-      <Text style={styles.desc}>{route.params.data.description}</Text>
-      <View style={{flexDirection: 'row'}}>
-        <Text style={[styles.price, {color: 'black'}]}>Price:</Text>
-        <Text style={styles.price}>{'$' + route.params.data.price}</Text>
-      </View>
-      <TouchableOpacity
-        style={styles.wishlistbtn}
-        onPress={() => {
-          dispatch(additemtowishlist(route.params.data));
-        }}>
-        <Image source={require('../images/wish.png')} style={styles.icon} />
-      </TouchableOpacity>
-      <CustomButton
-        bg={'rgba(205,189,19,0.66)'}
-        title={'Add To Cart'}
-        color={'white'}
-        onClick={() => {}}
-      />
+      <ScrollView>
+        <Image source={{uri: route.params.data.image}} style={styles.banner} />
+        <Text style={styles.title}>{route.params.data.title}</Text>
+        <Text style={styles.desc}>{route.params.data.description}</Text>
+        <View style={{flexDirection: 'row'}}>
+          <Text style={[styles.price, {color: 'black'}]}>Price:</Text>
+          <Text style={styles.price}>{'$' + route.params.data.price}</Text>
+        </View>
+        <TouchableOpacity
+          style={styles.wishlistbtn}
+          onPress={() => {
+            dispatch(additemtowishlist(route.params.data));
+          }}>
+          <Image source={require('../images/wish.png')} style={styles.icon} />
+        </TouchableOpacity>
+        <CustomButton
+          bg={'rgba(205,189,19,0.66)'}
+          title={'Add To Cart'}
+          color={'white'}
+          onClick={() => {
+            dispatch(additemtocart(route.params.data));
+          }}
+        />
+      </ScrollView>
     </View>
   );
 };
