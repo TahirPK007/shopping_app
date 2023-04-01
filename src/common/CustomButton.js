@@ -5,7 +5,6 @@ import {TouchableOpacity} from 'react-native-gesture-handler';
 const CustomButton = ({bg, title, onClick, color}) => {
   return (
     <TouchableOpacity
-      activeOpacity={1}
       style={[styles.btn, {backgroundColor: bg}]}
       onPress={() => {
         onClick();

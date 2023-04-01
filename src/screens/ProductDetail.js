@@ -1,12 +1,15 @@
-import {View, Text, StyleSheet, Image,TouchableOpacity} from 'react-native';
+import {View, Text, StyleSheet, Image, TouchableOpacity} from 'react-native';
 import React from 'react';
 import Header from '../common/Header';
 import {useNavigation, useRoute} from '@react-navigation/native';
 import CustomButton from '../common/CustomButton';
+import {useDispatch} from 'react-redux';
+import {additemtowishlist} from '../redux/slices/wishlistSlice';
 
 const ProductDetail = () => {
   const navigation = useNavigation();
   const route = useRoute();
+  const dispatch = useDispatch();
   return (
     <View style={styles.container}>
       <Header
@@ -24,7 +27,11 @@ const ProductDetail = () => {
         <Text style={[styles.price, {color: 'black'}]}>Price:</Text>
         <Text style={styles.price}>{'$' + route.params.data.price}</Text>
       </View>
-      <TouchableOpacity style={styles.wishlistbtn}>
+      <TouchableOpacity
+        style={styles.wishlistbtn}
+        onPress={() => {
+          dispatch(additemtowishlist(route.params.data));
+        }}>
         <Image source={require('../images/wish.png')} style={styles.icon} />
       </TouchableOpacity>
       <CustomButton
