@@ -27,6 +27,9 @@ const Home = () => {
       .then(res => res.json())
       .then(json => {
         setproducts(json);
+        json.map(item => {
+          item.qty = 1;
+        });
         dispatch(addProducts(json));
       });
   };
@@ -35,10 +38,11 @@ const Home = () => {
       <Header
         leftIcon={require('../../images/menu.png')}
         rightIcon={require('../../images/cart.png')}
-        title={'Grocery App'}
+        title={'Shopping App'}
         onClickLefIcon={() => {
           navigation.openDrawer();
         }}
+        isCart={true}
       />
       <FlatList
         data={products}

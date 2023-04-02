@@ -6,7 +6,7 @@ import {
   TouchableOpacity,
   ScrollView,
 } from 'react-native';
-import React from 'react';
+import React, {useState} from 'react';
 import Header from '../common/Header';
 import {useNavigation, useRoute} from '@react-navigation/native';
 import CustomButton from '../common/CustomButton';
@@ -18,6 +18,7 @@ const ProductDetail = () => {
   const navigation = useNavigation();
   const route = useRoute();
   const dispatch = useDispatch();
+  const [qty, setqty] = useState(1);
   return (
     <View style={styles.container}>
       <Header
@@ -27,14 +28,35 @@ const ProductDetail = () => {
         onClickLefIcon={() => {
           navigation.goBack();
         }}
+        isCart={true}
       />
       <ScrollView>
         <Image source={{uri: route.params.data.image}} style={styles.banner} />
         <Text style={styles.title}>{route.params.data.title}</Text>
         <Text style={styles.desc}>{route.params.data.description}</Text>
-        <View style={{flexDirection: 'row'}}>
+        <View style={{flexDirection: 'row', alignItems: 'center'}}>
           <Text style={[styles.price, {color: 'black'}]}>Price:</Text>
           <Text style={styles.price}>{'$' + route.params.data.price}</Text>
+          <View style={styles.qtyview}>
+            <Text style={styles.price}>{}</Text>
+            <TouchableOpacity
+              style={styles.btn}
+              onPress={() => {
+                if (qty > 1) {
+                  setqty(qty - 1);
+                }
+              }}>
+              <Text style={{fontSize: 18, fontWeight: '600'}}>-</Text>
+            </TouchableOpacity>
+            <Text style={styles.qty}>{qty}</Text>
+            <TouchableOpacity
+              style={styles.btn}
+              onPress={() => {
+                setqty(qty + 1);
+              }}>
+              <Text style={{fontSize: 18, fontWeight: '600'}}>+</Text>
+            </TouchableOpacity>
+          </View>
         </View>
         <TouchableOpacity
           style={styles.wishlistbtn}
@@ -43,12 +65,25 @@ const ProductDetail = () => {
           }}>
           <Image source={require('../images/wish.png')} style={styles.icon} />
         </TouchableOpacity>
+
         <CustomButton
           bg={'rgba(205,189,19,0.66)'}
           title={'Add To Cart'}
           color={'white'}
           onClick={() => {
-            dispatch(additemtocart(route.params.data));
+            console.log(route.params.data);
+            dispatch(
+              additemtocart({
+                category: route.params.data.category,
+                description: route.params.data.description,
+                id: route.params.data.id,
+                image: route.params.data.image,
+                price: route.params.data.price,
+                qty: qty,
+                rating: route.params.data.rating,
+                title: route.params.data.title,
+              }),
+            );
           }}
         />
       </ScrollView>
@@ -104,5 +139,23 @@ const styles = StyleSheet.create({
   icon: {
     width: 24,
     height: 24,
+  },
+  qtyview: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginTop: 10,
+  },
+  btn: {
+    padding: 5,
+    borderWidth: 0.5,
+    width: 30,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 10,
+    marginLeft: 10,
+  },
+  qty: {
+    marginLeft: 10,
+    fontSize: 18,
   },
 });
