@@ -8,6 +8,7 @@ import ProductDetail from './screens/ProductDetail';
 import Cart from './screens/Cart';
 import Login from './screens/Login';
 import Signup from './screens/Signup';
+import Checkout from './screens/Checkout';
 const Stack = createNativeStackNavigator();
 
 const AppNavigator = () => {
@@ -37,6 +38,11 @@ const AppNavigator = () => {
         <Stack.Screen
           name="Login"
           component={Login}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="Checkout"
+          component={Checkout}
           options={{headerShown: false}}
         />
       </Stack.Navigator>

@@ -77,11 +77,11 @@ const ProductDetail = () => {
         <TouchableOpacity
           style={styles.wishlistbtn}
           onPress={() => {
-            if (checkuserstatus() === true) {
+            // if (checkuserstatus() === true) {
               dispatch(!additemtowishlist(route.params.data));
-            } else {
-              setmodalvisible(true);
-            }
+            // } else {
+            //   setmodalvisible(true);
+            // }
           }}>
           <Image source={require('../images/wish.png')} style={styles.icon} />
         </TouchableOpacity>
@@ -91,7 +91,7 @@ const ProductDetail = () => {
           title={'Add To Cart'}
           color={'white'}
           onClick={() => {
-            if (checkuserstatus() === true) {
+            // if (checkuserstatus() === true) {
               dispatch(
                 additemtocart({
                   category: route.params.data.category,
@@ -104,9 +104,9 @@ const ProductDetail = () => {
                   title: route.params.data.title,
                 }),
               );
-            } else {
-              setmodalvisible(true);
-            }
+            // } else {
+            //   setmodalvisible(true);
+            // }
           }}
         />
       </ScrollView>
