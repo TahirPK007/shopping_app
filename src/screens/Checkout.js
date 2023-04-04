@@ -31,7 +31,7 @@ const Checkout = () => {
   const gettotal = () => {
     let total = 0;
     cartitems.map(item => {
-      total = total.qty * item.price;
+      total = total + item.qty * item.price;
     });
     return total.toFixed(0);
   };
@@ -101,8 +101,10 @@ const Checkout = () => {
         />
       </View>
       <View style={styles.totalview}>
-        <Text>Total</Text>
-        <Text style={[styles.title, {marginRight: 20}]}>'$'+{gettotal()}</Text>
+        <Text style={[styles.title, {marginLeft: 20}]}>Total</Text>
+        <Text style={[styles.title, {marginRight: 20}]}>
+          {'$' + gettotal()}
+        </Text>
       </View>
       <Text style={styles.title}>Select Payment Mode</Text>
       <TouchableOpacity
@@ -116,9 +118,12 @@ const Checkout = () => {
               ? require('../images/radio_fill.png')
               : require('../images/radio.png')
           }
-          style={styles.img}
+          style={[
+            styles.img,
+            {tintColor: selectedmethod == 0 ? 'orange' : 'black'},
+          ]}
         />
-        <Text styles={styles.paymenttxt}>Credit Cart</Text>
+        <Text style={styles.paymenttxt}>Credit Cart</Text>
       </TouchableOpacity>
       <TouchableOpacity
         style={styles.paymentmethod}
@@ -131,9 +136,12 @@ const Checkout = () => {
               ? require('../images/radio_fill.png')
               : require('../images/radio.png')
           }
-          style={styles.img}
+          style={[
+            styles.img,
+            {tintColor: selectedmethod == 1 ? 'orange' : 'black'},
+          ]}
         />
-        <Text styles={styles.paymenttxt}>Debit Cart</Text>
+        <Text style={styles.paymenttxt}>Debit Cart</Text>
       </TouchableOpacity>
       <TouchableOpacity
         style={styles.paymentmethod}
@@ -146,9 +154,12 @@ const Checkout = () => {
               ? require('../images/radio_fill.png')
               : require('../images/radio.png')
           }
-          style={styles.img}
+          style={[
+            styles.img,
+            {tintColor: selectedmethod == 2 ? 'orange' : 'black'},
+          ]}
         />
-        <Text styles={styles.paymenttxt}>Easy Pesa</Text>
+        <Text style={styles.paymenttxt}>Easy Pesa</Text>
       </TouchableOpacity>
       <TouchableOpacity
         style={styles.paymentmethod}
@@ -161,13 +172,16 @@ const Checkout = () => {
               ? require('../images/radio_fill.png')
               : require('../images/radio.png')
           }
-          style={styles.img}
+          style={[
+            styles.img,
+            {tintColor: selectedmethod == 3 ? 'orange' : 'black'},
+          ]}
         />
-        <Text styles={styles.paymenttxt}>Cash On Delivery</Text>
+        <Text style={styles.paymenttxt}>Cash On Delivery</Text>
       </TouchableOpacity>
       <Text style={styles.title}>Address</Text>
-      <Text style={styles.title}>{selectedaddress}</Text>
-      <CustomButton bg={"green"} title={"Pay Now"} color={"white"}/>
+      <Text style={[styles.title,{marginTop:10,fontSize:16}]}>{selectedaddress}</Text>
+      <CustomButton bg={'green'} title={'Pay Now'} color={'white'} />
     </View>
   );
 };
@@ -250,6 +264,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     width: '90%',
     marginTop: 20,
+    alignItems: 'center',
+    paddingLeft: 20,
   },
   img: {
     width: 24,
@@ -257,8 +273,8 @@ const styles = StyleSheet.create({
     paddingLeft: 20,
   },
   paymenttxt: {
-    marginLeft: 20,
+    marginLeft: 15,
     fontSize: 16,
-    color: 'bloack',
+    color: 'black',
   },
 });

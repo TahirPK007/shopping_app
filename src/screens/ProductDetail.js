@@ -54,7 +54,7 @@ const ProductDetail = () => {
           <Text style={[styles.price, {color: 'black'}]}>Price:</Text>
           <Text style={styles.price}>{'$' + route.params.data.price}</Text>
           <View style={styles.qtyview}>
-            <Text style={styles.price}>{}</Text>
+            <Text style={styles.price}>{route.params.data.price}</Text>
             <TouchableOpacity
               style={styles.btn}
               onPress={() => {
@@ -78,7 +78,7 @@ const ProductDetail = () => {
           style={styles.wishlistbtn}
           onPress={() => {
             // if (checkuserstatus() === true) {
-              dispatch(!additemtowishlist(route.params.data));
+            dispatch(additemtowishlist(route.params.data));
             // } else {
             //   setmodalvisible(true);
             // }
@@ -92,25 +92,25 @@ const ProductDetail = () => {
           color={'white'}
           onClick={() => {
             // if (checkuserstatus() === true) {
-              dispatch(
-                additemtocart({
-                  category: route.params.data.category,
-                  description: route.params.data.description,
-                  id: route.params.data.id,
-                  image: route.params.data.image,
-                  price: route.params.data.price,
-                  qty: qty,
-                  rating: route.params.data.rating,
-                  title: route.params.data.title,
-                }),
-              );
+            dispatch(
+              additemtocart({
+                category: route.params.data.category,
+                description: route.params.data.description,
+                id: route.params.data.id,
+                image: route.params.data.image,
+                price: route.params.data.price,
+                qty: qty,
+                rating: route.params.data.rating,
+                title: route.params.data.title,
+              }),
+            );
             // } else {
             //   setmodalvisible(true);
             // }
           }}
         />
       </ScrollView>
-      <Askforloginmodal
+      {/* <Askforloginmodal
         modalvisible={modalvisible}
         onClose={() => {
           setmodalvisible(false);
@@ -121,7 +121,7 @@ const ProductDetail = () => {
         onClickSignup={() => {
           navigation.navigate('Signup');
         }}
-      />
+      /> */}
     </View>
   );
 };

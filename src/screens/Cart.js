@@ -29,7 +29,7 @@ const Cart = () => {
   const gettotal = () => {
     let total = 0;
     cartitems.map(item => {
-      total = total.qty * item.price;
+      total = total+item.qty * item.price;
     });
     return total.toFixed(0);
   };
