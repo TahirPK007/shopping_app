@@ -9,13 +9,14 @@ import {
 import React, {useState, useEffect} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import Header from '../common/Header';
-import {useNavigation} from '@react-navigation/native';
+import {useIsFocused, useNavigation} from '@react-navigation/native';
 import {
   additemtocart,
   reduceitemfromcart,
   removeitemfromcart,
 } from '../redux/slices/cartSlice';
 import CustomButton from '../common/CustomButton';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Checkout = () => {
   const navigation = useNavigation();
@@ -25,6 +26,7 @@ const Checkout = () => {
   const [selectedaddress, setselectedaddress] = useState(
     'Please Select Your Address',
   );
+  const isFocused = useIsFocused();
 
   const dispatch = useDispatch();
 
@@ -39,6 +41,15 @@ const Checkout = () => {
   useEffect(() => {
     setcartitems(items.data);
   }, [items]);
+
+  const getselectedaddress = async () => {
+    setselectedaddress(await AsyncStorage.getItem('myaddress'));
+  };
+
+  useEffect(() => {
+    getselectedaddress();
+  }, [isFocused]);
+
   return (
     <View style={styles.container}>
       <Header
@@ -179,8 +190,22 @@ const Checkout = () => {
         />
         <Text style={styles.paymenttxt}>Cash On Delivery</Text>
       </TouchableOpacity>
-      <Text style={styles.title}>Address</Text>
-      <Text style={[styles.title,{marginTop:10,fontSize:16}]}>{selectedaddress}</Text>
+      <View style={styles.addressview}>
+        <Text style={styles.title}>Address</Text>
+        <Text
+          style={[
+            styles.title,
+            {textDecorationLine: 'underline', color: 'blue'},
+          ]}
+          onPress={() => {
+            navigation.navigate('Addresses');
+          }}>
+          Edit Address
+        </Text>
+      </View>
+      <Text style={[styles.title, {marginTop: 10, fontSize: 16}]}>
+        {selectedaddress}
+      </Text>
       <CustomButton bg={'green'} title={'Pay Now'} color={'white'} />
     </View>
   );
@@ -276,5 +301,13 @@ const styles = StyleSheet.create({
     marginLeft: 15,
     fontSize: 16,
     color: 'black',
+  },
+  addressview: {
+    width: '100%',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+
+    paddingRight: 20,
   },
 });
