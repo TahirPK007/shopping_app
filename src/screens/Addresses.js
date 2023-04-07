@@ -1,14 +1,24 @@
-import {StyleSheet, Text, View, FlatList, TouchableOpacity} from 'react-native';
+import {
+  StyleSheet,
+  Text,
+  View,
+  FlatList,
+  TouchableOpacity,
+  Image,
+} from 'react-native';
 import React, {useEffect} from 'react';
 import Header from '../common/Header';
 import {useIsFocused, useNavigation} from '@react-navigation/native';
-import {useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import uuid from 'react-native-uuid';
+import {deleteAddress} from '../redux/slices/addressSlice';
 
 const Addresses = () => {
   const navigation = useNavigation();
   const addresslist = useSelector(state => state.address);
   const isFocused = useIsFocused();
+  const dispatch = useDispatch();
 
   useEffect(() => {
     console.log(addresslist);
@@ -35,7 +45,7 @@ const Addresses = () => {
       <TouchableOpacity
         style={styles.btn}
         onPress={() => {
-          navigation.navigate('Addaddress');
+          navigation.navigate('Addaddress', {type: 'new'});
         }}>
         <Text style={{fontSize: 30, color: 'white'}}>+</Text>
       </TouchableOpacity>
@@ -78,6 +88,31 @@ const Addresses = () => {
                   ]}>
                   {item.type}
                 </Text>
+                <View style={styles.bottomview}>
+                  <TouchableOpacity
+                    style={[styles.bottomicon, {marginRight: 15}]}
+                    onPress={() => {
+                      navigation.navigate('Addaddress', {
+                        type: 'edit',
+                        data: item,
+                      });
+                    }}>
+                    <Image
+                      source={require('../images/edit.png')}
+                      style={styles.bottomicon}
+                    />
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                    style={styles.bottomicon}
+                    onPress={() => {
+                      dispatch(deleteAddress(item.id));
+                    }}>
+                    <Image
+                      source={require('../images/delete.png')}
+                      style={styles.bottomicon}
+                    />
+                  </TouchableOpacity>
+                </View>
               </TouchableOpacity>
             );
           }}
@@ -107,5 +142,15 @@ const styles = StyleSheet.create({
   state: {
     color: 'black',
     fontSize: 20,
+  },
+  bottomview: {
+    position: 'absolute',
+    right: 10,
+    bottom: 10,
+    flexDirection: 'row',
+  },
+  bottomicon: {
+    width: 24,
+    height: 24,
   },
 });

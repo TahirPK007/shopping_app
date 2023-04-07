@@ -8,24 +8,38 @@ import {
 } from 'react-native';
 import React, {useState} from 'react';
 import Header from '../common/Header';
-import {useNavigation} from '@react-navigation/native';
+import {useNavigation, useRoute} from '@react-navigation/native';
 import CustomButton from '../common/CustomButton';
 import {useDispatch, useSelector} from 'react-redux';
-import {addAddress} from '../redux/slices/addressSlice';
+import {addAddress, updateAddress} from '../redux/slices/addressSlice';
+import uuid from 'react-native-uuid';
 
 const Addaddress = () => {
+  const route = useRoute();
   const navigation = useNavigation();
-  const [type, settype] = useState(1);
-  const [city, setcity] = useState('');
-  const [state, setstate] = useState('');
-  const [pincode, setpincode] = useState('');
+  const [type, settype] = useState(
+    route.params.type == 'edit'
+      ? route.params.data.type == 'home'
+        ? 1
+        : 2
+      : 1,
+  );
+  const [city, setcity] = useState(
+    route.params.type == 'edit' ? route.params.data.city : '',
+  );
+  const [state, setstate] = useState(
+    route.params.type == 'edit' ? route.params.data.state : '',
+  );
+  const [pincode, setpincode] = useState(
+    route.params.type == 'edit' ? route.params.data.pincode : '',
+  );
   const dispatch = useDispatch();
 
   return (
     <View style={styles.container}>
       <Header
         leftIcon={require('../images/back.png')}
-        title={'Add New Address'}
+        title={route.params.type == 'edit' ? 'Edit Address' : 'Add New Address'}
         onClickLefIcon={() => {
           navigation.goBack();
         }}
@@ -93,15 +107,29 @@ const Addaddress = () => {
         title={'Save Address'}
         color={'white'}
         onClick={() => {
-          dispatch(
-            addAddress({
-              state: state,
-              city: city,
-              pincode: pincode,
-              type: type == 1 ? 'home' : 'office',
-            }),
-            navigation.goBack(),
-          );
+          if (route.params.type == 'edit') {
+            dispatch(
+              updateAddress({
+                state: state,
+                city: city,
+                pincode: pincode,
+                type: type == 1 ? 'home' : 'office',
+                id: route.params.data.id,
+              }),
+              navigation.goBack(),
+            );
+          } else {
+            dispatch(
+              addAddress({
+                state: state,
+                city: city,
+                pincode: pincode,
+                type: type == 1 ? 'home' : 'office',
+                id: uuid.v4(),
+              }),
+              navigation.goBack(),
+            );
+          }
         }}
       />
     </View>
