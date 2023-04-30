@@ -206,7 +206,7 @@ const Checkout = () => {
       <Text style={[styles.title, {marginTop: 10, fontSize: 16}]}>
         {selectedaddress}
       </Text>
-      <CustomButton bg={'green'} title={'Pay Now'} color={'white'} />
+      <CustomButton bg={'green'} title={'Pay and order'} color={'white'} />
     </View>
   );
 };
